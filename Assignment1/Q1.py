@@ -35,8 +35,9 @@ def main():
     plt.xlabel("n")
     plt.ylabel("Logarithm values")
 
-    plt.plot(x, y1, "r", lw=3)
-    plt.plot(x, y2, "black", lw=1.5)
+    plt.plot(x, y1, "r", lw=3, label="Stirling's Approximation")
+    plt.plot(x, y2, "black", lw=1.5, label="Log of Factorial")
+    plt.legend(loc="best")
     plt.show()
 
 

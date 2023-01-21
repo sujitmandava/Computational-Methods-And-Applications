@@ -66,8 +66,9 @@ class Dice():
         )
         plt.xlabel("Sides")
         plt.ylabel("Occurences")
-        plt.bar([i-0.15 for i in x], yRolls, color="red", width = 0.3)
-        plt.bar([i+0.15 for i in x], yPreds, color="blue", width = 0.3)
+        plt.bar([i-0.15 for i in x], yRolls, color="red", width = 0.3, label="Actual Rolls")
+        plt.bar([i+0.15 for i in x], yPreds, color="blue", width = 0.3, label="Predicted Rolls")
+        plt.legend(loc="best")
         plt.show()
 
 
@@ -75,7 +76,7 @@ def main():
     N = 12
     d1 = Dice(N)
     print(d1)
-    d1.setProb([0,0,0,0,0,0,0.1,0.2,0.3,0.4,0,0])
+    # d1.setProb([0,0,0,0,0,0,0.1,0.2,0.3,0.4,0,0])
     d1.roll(1000000)
 
 
