@@ -2,24 +2,29 @@ from random import choices
 
 
 class TextGenerator:
+    # Attributes
     prefixDict = {}
 
     def assimilateText(self, filename):
+        # Input text -> prefix dictionary
         self.prefixDict.clear()
 
         input = open(filename)
         inputText = input.read()
 
+        # Split text at " "
         words = inputText.split()
 
         if len(words) < 3:
             raise Exception("Number of words in text file less than 3.")
 
+        # Prefix dictionary generation
         word1, word2 = words[0], words[1]
 
         for i in range(2, len(words)):
             currWord = words[i]
             currTuple = (word1, word2)
+            # Checking if tuple is in dictionary
             if currTuple not in self.prefixDict:
                 self.prefixDict[currTuple] = []
             self.prefixDict[currTuple].append(currWord)
@@ -28,13 +33,14 @@ class TextGenerator:
             word2 = currWord
 
     def generateText(self, n, startWord=''):
+        # prefix dictionary -> random text
         tuples = list(self.prefixDict.keys())
         currTuple = ()
-        if startWord == '':
+        if startWord == '':  # No start word
             currTuple = choices(tuples)[0]
         else:
             startTuples = []
-            for t in tuples:
+            for t in tuples:  # Selecting first tuple with fixed word
                 if t[0] == startWord:
                     startTuples.append(t)
             if startTuples == []:
@@ -46,10 +52,9 @@ class TextGenerator:
             print(currTuple[0])
             return
 
+        # Generating text
         wordCount = 0
         text = ""
-        print(currTuple)
-        print(type(currTuple))
         while wordCount < n:
             # if tuple exists in prefix dictionary
             if currTuple in list(self.prefixDict.keys()):

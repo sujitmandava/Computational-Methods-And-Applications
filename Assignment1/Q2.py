@@ -9,6 +9,7 @@ class Dice():
     cdf = []
 
     def checkProbability(self, pSides):
+        # Check validity of prob dist
         totalProb = 0
 
         if len(pSides) != self.numSides:
@@ -21,6 +22,7 @@ class Dice():
             raise Exception("Invalid probability distribution")
 
     def __init__(self, sides=6) -> None:
+        # Class Constructor
         if (sides < 4):
             raise Exception("Cannot construct the dice")
 
@@ -33,6 +35,7 @@ class Dice():
         self.setProb(pSides)
 
     def setProb(self, pSides):
+        # Set probSides attribute
         self.checkProbability(pSides)
         self.probSides = pSides
         self.cdf.clear()
@@ -49,9 +52,11 @@ class Dice():
         return "Dice with " + str(sides) + " faces and probability distribution " + str(pDist)
 
     def roll(self, n):
+        # Simulate n rolls
         currRolls = [0]*self.numSides
         for i in range(n):
             currRoll = random()
+            # Checking the interval from which number was selected
             for p in range(len(self.cdf)):
                 if currRoll < self.cdf[p]:
                     currRolls[p] += 1
@@ -60,6 +65,7 @@ class Dice():
         yRolls = list(currRolls)
         yPreds = [i*n for i in self.probSides]
 
+        # Plot details
         plt.title(
             "Outcome of {n} throws of a {numSides}-faced dice".format(
                 n=n, numSides=self.numSides)

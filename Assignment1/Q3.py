@@ -8,13 +8,16 @@ def estimatePi(n):
     pointsGenerated = []
     fraction4List = []
     for i in range(n):
+        # Generating n points
         x = uniform(-1, +1)
         y = uniform(-1, +1)
-        if x*x + y*y <= 1.0:
+        # Check whether point lies in unit circle
+        if x*x + y*y <= 1.0: 
             pointsInCircle += 1
         fraction4List.append((4*(pointsInCircle))/(i+1))
         pointsGenerated.append(i+1)
 
+    # Plot details
     plt.title("Estimates π using Monte Carlo Method")
     plt.xlabel("No. of points generated")
     plt.ylabel("4 x fraction of points within the circle")

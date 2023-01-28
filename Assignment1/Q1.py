@@ -3,11 +3,12 @@ from math import log, exp, pi
 
 
 def logStirling(n: int) -> float:
-    # return (n+0.5)*log(n) + 0.5*log(2*pi) - n
+    # Function to compute Stirling's Approximation
     return ((1 / 2) * (log(2 * pi) + log(n))) + (n * (log(n) - 1))
 
 
 def logFactorial(n: int):
+    # Function to compute actual log values
     lF = []
     currLog = 0
     for i in range(1, n+1):
