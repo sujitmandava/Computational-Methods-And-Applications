@@ -71,6 +71,12 @@ class TextGenerator:
 def main():
     gen = TextGenerator()
     gen.assimilateText("sherlock.txt")
+
+    # Prefix dictionary that is generated
+    f = open("prefixes.txt", "w")
+    f.write(str(gen.prefixDict))
+    f.close()
+
     gen.generateText(100, startWord='London')
 
 
