@@ -1,6 +1,8 @@
 from sys import maxsize as INF
 import matplotlib.pyplot as plt
 from random import random
+import numpy as np
+from math import log
 
 
 class UndirectedGraph:
@@ -105,7 +107,6 @@ class UndirectedGraph:
     def isConnected(self):
         nodes = list(self.graph.keys())
         startNode = nodes[0]
-        print(startNode)
 
         bfsNodes = []
         bfsNodes.append(startNode)
@@ -135,6 +136,36 @@ class ERRandomGraph(UndirectedGraph):
                 if t < p:
                     self.addEdge(i, j)
 
+    def verifyConnectedStatement(self):
+        '''
+        Verifies whether ER Random Graph G(100,p) is almost surely connected
+        if p > ln(100)/100
+        '''
+        pArr = np.linspace(0, 0.10, 100)
+        connectedRuns = []
+
+        for p in pArr:
+            print(p)
+            count = 0
+            for i in range(1000):
+                g = ERRandomGraph(100)
+                g.sample(p)
+                if g.isConnected():
+                    count += 1
+            connectedRuns.append(count/1000)
+
+        plt.title("Connectedness of a G(100,p) graph as a function of p")
+        plt.xlabel("p")
+        plt.ylabel(
+            "Fraction of runs G(100,p) is connected")
+
+        plt.plot(pArr, connectedRuns, color="blue")
+        plt.axvline(x=log(100)/100,
+                    color='r', label="Theoretical Threshold")
+        plt.grid()
+        plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
     g = UndirectedGraph(5)
@@ -142,3 +173,13 @@ if __name__ == "__main__":
     g = g + (2, 3)
     g = g + (3, 5)
     print(g.isConnected())
+
+    g = UndirectedGraph(5)
+    g = g + (1, 2)
+    g = g + (2, 3)
+    g = g + (3, 4)
+    g = g + (3, 5)
+    print(g.isConnected())
+
+    g = ERRandomGraph(100)
+    g.verifyConnectedStatement()

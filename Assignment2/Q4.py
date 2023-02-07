@@ -1,6 +1,8 @@
 from sys import maxsize as INF
 import matplotlib.pyplot as plt
 from random import random
+import numpy as np
+from math import log
 
 
 class UndirectedGraph:
@@ -102,7 +104,7 @@ class UndirectedGraph:
         plt.grid(zorder=1)
         plt.show()
 
-    def oneTwoComponentSize(self):
+    def oneTwoComponentSizes(self):
         nodes = list(self.graph.keys())
         componentSize = []
         visitedNodes = {}
@@ -119,7 +121,7 @@ class UndirectedGraph:
                         connectedNodes[currNode] = True
                         for adjNode in self.graph[currNode]:
                             bfsNodes.append(adjNode)
-                
+
                 componentSize.append(len(list(connectedNodes.keys())))
         componentSize.sort(reverse=True)
         if len(componentSize) == 1:
@@ -138,11 +140,50 @@ class ERRandomGraph(UndirectedGraph):
                 if t < p:
                     self.addEdge(i, j)
 
+    def verifyComponent(self):
+        '''
+        Verifies the following statement:
+        If p < 0.001, the Erdos-Renyi random graph G(1000, p) will almost surely have only
+        small connected components. On the other hand, if p > 0.001, almost surely, there will be
+        a single giant component containing a positive fraction of the vertices.”
+        '''
+        pArr = np.linspace(0, 0.01, 100)
+        component1 = []
+        component2 = []
+
+        for p in pArr:
+            print(p)
+            count1 = 0
+            count2 = 0
+            for i in range(50):
+                g = ERRandomGraph(1000)
+                g.sample(p)
+
+                components = g.oneTwoComponentSizes()
+                count1 += (components[0]/1000)
+                count2 += (components[1]/1000)
+            component1.append(count1/50)
+            component2.append(count2/50)
+
+        plt.title(
+            "Fraction of nodes in the largest and second-largest connected components (CC) of  G(1000, p) as function of p")
+        plt.xlabel("p")
+        plt.ylabel("Fraction of nodes")
+        plt.plot(pArr, component1, color="g",
+                 label="Largest connected compoment")
+        plt.plot(pArr, component2, color="b",
+                 label="2nd largest connected compoment")
+        plt.axvline(x=1/1000, color='r',
+                    label="Largest CC size threshold")
+        plt.axvline(x=log(1000)/1000, color='orange',
+                    label="Connectedness threshold")
+        plt.grid()
+        plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
-    g = UndirectedGraph(5)
-    g = g + (1, 2)
-    g = g + (2, 3)
-    # g = g + (3, 4)
-    # g = g + (3, 5)
-    print(g.oneTwoComponentSize())
+    g = ERRandomGraph(100)
+    g.sample(0.01)
+    print(g.oneTwoComponentSizes())
+    g.verifyComponent()
