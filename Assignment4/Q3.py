@@ -35,7 +35,7 @@ if __name__ == "__main__":
     max_error_centered_theoretical = 2*np.abs(np.cos(0))
 
     plt.title(
-        "Absolute errors of different approximations")
+        "Max absolute error of different approximations v/s h")
     plt.plot(h_vals, maxForwardError, color='red',
              label='Forward difference approximation')
     plt.plot(h_vals, maxCenteredError, color='blue',

@@ -123,14 +123,18 @@ class Polynomial:
 
         return Polynomial(d)
 
-    def area(self, a, b):
+    def integrate(self):
         integral = [0]
         for i in range(0, len(self.coefs)):
             integral.append(self.coefs[i]/(i+1))
 
-        integral = Polynomial(integral)
+        return Polynomial(integral)
+
+    def area(self, a, b):
+        integral = self.integrate()
         area = integral.evaluate(b) - integral.evaluate(a)
-        print(f'Area in the interval [{a,b}] is: {area}')
+        # print(f'Area in the interval [{a,b}] is: {area}')
+        print(f'Area in the interval [{a,b}] is: ', end='')
         return area
 
 
@@ -140,4 +144,4 @@ if __name__ == "__main__":
     print(pd)
 
     p = Polynomial([1, 2, 3])
-    p.area(1, 2)
+    print(p.area(1, 2))

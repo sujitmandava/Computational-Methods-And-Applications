@@ -47,4 +47,4 @@ def visualizeIntegrals(u_max):
 
 if __name__ == '__main__':
     # Input max u value
-    visualizeIntegrals(0.2)
+    visualizeIntegrals(2)

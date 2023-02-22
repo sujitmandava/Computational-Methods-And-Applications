@@ -149,14 +149,17 @@ class Polynomial:
 
     def approxArea(self):
         '''
-        We use the Maclaurin series to estimate the function y(x) = exp(x)*sin(x)
-        The expansion for the same is given by
-        y(x) = x + 2*x^2/(2!) + 2*x^3/(3!) + ...
-        We expand this series until n = 10?
+        We use the Taylor series to estimate the function y(x) = exp(x)*sin(x)
         '''
         currFactorial = 1
         approxPolynomial = []
         n = 100
+
+        nList = list(range(1, n+1))
+        areaList = []
+        actualArea = np.exp(1/2)*(np.sin(1/2) - np.cos(1/2)) - \
+            np.exp(0)*(np.sin(0) - np.cos(0))
+        actualArea /= 2
 
         for i in range(n):
             currSin = self.__detSin(i)
@@ -164,15 +167,23 @@ class Polynomial:
             approxPolynomial.append(coef)
             if i != 0:
                 currFactorial *= (i+1)
+            pTemp = Polynomial(approxPolynomial)
+            areaList.append(pTemp.area(0, 1/2))
+
         approxPolynomial = Polynomial(approxPolynomial)
         approxArea = approxPolynomial.area(0, 1/2)
-        actualArea = np.exp(1/2)*(np.sin(1/2) - np.cos(1/2)) - \
-            np.exp(0)*(np.sin(0) - np.cos(0))
-        actualArea /= 2
         approximationError = abs(actualArea - approxArea)
+
         print(f'Actual Area under the curve: {actualArea}')
         print(f"Computed Area using Taylor's Series Expansion: {approxArea}")
         print(f'Approximation error(n = {n}): {approximationError}')
+
+        plt.title('Actual v/s Approximated Area as a function of n')
+        plt.plot(nList, areaList, color='blue', label='Approximated area')
+        plt.axhline(actualArea, color='red', label='Actual Area')
+        plt.legend(loc='best')
+        plt.grid()
+        plt.show()
 
 
 if __name__ == "__main__":

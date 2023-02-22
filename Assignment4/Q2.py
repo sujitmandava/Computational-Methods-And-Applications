@@ -30,12 +30,15 @@ if __name__ == "__main__":
 
     plt.title(
         "Absolute errors of different approximations")
-    plt.plot(x, yf-x, color='red', label='Forward difference approximation')
-    plt.plot(x, yb-x, color='blue', label='Backward difference approximation')
-    plt.plot(x, yc-x, color='green', label='Centered difference approximation')
+    plt.plot(x, abs(yf-f_prime(x)), color='red',
+             label='Forward difference approximation')
+    plt.plot(x, abs(yb-f_prime(x)), color='blue',
+             label='Backward difference approximation')
+    plt.plot(x, abs(yc-f_prime(x)), color='green',
+             label='Centered difference approximation')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend(loc="best")
-    plt.tight_layout()
+    # plt.tight_layout()
     plt.grid()
     plt.show()
