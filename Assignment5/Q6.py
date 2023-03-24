@@ -189,19 +189,27 @@ class Polynomial:
         plt.grid()
         plt.show()
 
-    def bestFitPolynomialPoints(self, points, n):
-        if n < 0:
-            raise Exception("n must be non-negative")
+    def bestFitPolynomialPoint(self, points, n):
+        if type(n) != int or n < 0:
+            raise Exception("n must be a non-negative integer.")
+
+        if type(points) != list or len(points) == 0 or type(points[0]) != tuple:
+            raise Exception("points must a list of (x,y) tuples only.")
+
+        for i in range(len(points)):
+            if len(points[i]) != 2 or (type(points[i][0]) != int and type(points[i][0]) != float) or (type(points[i][1]) != int and type(points[i][1]) != float):
+                raise Exception("points must a list of (x,y) tuples only.")
 
         m = len(points)
+        print(type(points[0]))
         x = [point[0] for point in points]
-        y = [point[1] for point in points]
+        y1 = [point[1] for point in points]
 
         b = []
         for j in range(0, n + 1):
             currSum = 0
             for i in range(m):
-                currSum += y[i] * (x[i] ** j)
+                currSum += y1[i] * (x[i] ** j)
             b.append(currSum)
 
         S = []
@@ -214,17 +222,24 @@ class Polynomial:
                 currRow.append(currSum)
             S.append(currRow)
 
-        A = list(np.linalg.solve(S, b))
-        ans = Polynomial(A)
+        A = Polynomial(list(np.linalg.solve(S, b)))
 
-        plt.plot(x, y, '.', color='red', label='Input points')
+        x2 = np.linspace(min(x), max(x), 1000)
+        y2 = [A[xp] for xp in x2]
+        plt.title('Best Fit Polynomial')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.plot(x, y1, '.', color='red', label='Points to be fitted')
+        plt.plot(x2, y2, color='blue', label='Fitted Polynomial')
         plt.legend()
-        ans.show(min(x), max(x), 1000)
-        return ans
+        plt.grid()
+        plt.show()
+
+        return A
 
     def bestFitPolynomialInterval(self, n):
-        if n < 0:
-            raise Exception("n must be non-negative")
+        if type(n) != int or n < 0:
+            raise Exception("n must be a non-negative integer.")
 
         x = np.linspace(0, np.pi, 100)
         y = [(np.sin(xp) + np.cos(xp)) for xp in x]
@@ -242,14 +257,24 @@ class Polynomial:
                 quad((lambda x: (x**j)*(np.sin(x) + np.cos(x))), 0, np.pi)[0])
 
         A = Polynomial(list(np.linalg.solve(S, b)))
-        plt.plot(x, y, '.', color='red', label='Actual Points')
+
+        x2 = np.linspace(min(x), max(x), 1000)
+        y2 = [A[xp] for xp in x2]
+        plt.title('Approximating f(x) = sin(x) + cos(x)')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.plot(x, y, '.', color='red',
+                 label='Points on f(x)')
+        plt.plot(x2, y2, color='blue', label='Approximated Function')
         plt.legend()
-        A.show(min(x), max(x), 1000)
+        plt.grid()
+        plt.show()
+
         return A
 
     def nLegendre(self, n):
-        if n < 0:
-            raise Exception("n must be non-negative")
+        if type(n) != int or n < 0:
+            raise Exception("n must be a non-negative integer.")
 
         coefficient = 1/(math.factorial(n)*(2**n))
         if n == 0:
@@ -283,6 +308,9 @@ class Polynomial:
         return f
 
     def estimateExp(self, n):
+        if type(n) != int or n < 0:
+            raise Exception("n must be a non-negative integer.")
+
         x = np.linspace(-1, 1, 100)
         y = list(np.exp(xp) for xp in x)
 
@@ -305,6 +333,9 @@ class Polynomial:
         return pOut
 
     def nChebyshev(self, n):
+        if type(n) != int or n < 0:
+            raise Exception("n must be a non-negative integer.")
+
         T0 = Polynomial([1])
         T1 = Polynomial([0, 1])
         T_next = Polynomial([0, 1])
@@ -340,8 +371,8 @@ class Polynomial:
             currRow = []
             for j in range(5):
                 integral = quad(lambda x: f(x, i, j), -1, 1)[0]
-                print(
-                    f'M[{i}][{j}] = { integral }')
+                # print(
+                #     f'M[{i}][{j}] = { integral }')
                 # Round off really small values
                 if integral <= 1e-10:
                     integral = 0

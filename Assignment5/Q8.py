@@ -28,7 +28,9 @@ def product(a, b):
 
 
 if __name__ == "__main__":
-    a = 123456789
-    b = 12345
-    print(product(a, b))
+    a = 31220334
+    b = 442721
+    print(f"A = {a}")
+    print(f"B = {b}")
+    print(f"Computed product using fft: {product(a, b)}")
     print(f"Actual Product: {a * b}")
