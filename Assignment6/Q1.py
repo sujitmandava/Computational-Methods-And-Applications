@@ -200,7 +200,7 @@ class Polynomial:
                 raise Exception("points must a list of (x,y) tuples only.")
 
         m = len(points)
-        print(type(points[0]))
+        # print(type(points[0]))
         x = [point[0] for point in points]
         y1 = [point[1] for point in points]
 
@@ -469,7 +469,7 @@ def forwardEuler(f, ode, x0, t0, T, H):
     plt.title("Forward Euler Method")
     plt.xlabel("t")
     plt.ylabel("x(t)")
-    plt.ylim(-5, 5)
+    plt.ylim(-10, 10)
     x = np.linspace(t0, T, 1000)
     y = [f(xp) for xp in x]
     # print(y)

@@ -200,7 +200,7 @@ class Polynomial:
                 raise Exception("points must a list of (x,y) tuples only.")
 
         m = len(points)
-        print(type(points[0]))
+        # print(type(points[0]))
         x = [point[0] for point in points]
         y1 = [point[1] for point in points]
 
@@ -507,7 +507,7 @@ def backwardEuler(f, ode, x0, t0, T, H):
             polynomialPoints, len(tList) - 1)
         plt.plot(tList, xList, label=f"h={h}")
 
-    plt.title("Forward Euler Method")
+    plt.title("Backward Euler Method")
     plt.xlabel("t")
     plt.ylabel("x(t)")
     plt.ylim(-1, 6)

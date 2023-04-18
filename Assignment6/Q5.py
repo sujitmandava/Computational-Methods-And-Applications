@@ -90,7 +90,7 @@ if __name__ == "__main__":
     v30 = [0, 0]
 
     c = calcCentre(r10, r20, r30)
-    print(c)
-    print(type(c))
+    # print(c)
+    # print(type(c))
     ani = solveODE(rInit=[*r10, *r20, *r30],
                    vInit=[*v10, *v20, *v30], t0=0, T=400)
