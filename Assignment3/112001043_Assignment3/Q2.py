@@ -116,6 +116,18 @@ class SquareMatrixFloat:
                 return False
         return True
 
+    def isDRDominant(self):
+        for i in range(self.dimension):
+            sum = 0
+            for j in range(self.dimension):
+                if i != j:
+                    sum += abs(self.squareMatrix[j][i])
+                if sum > abs(self.squareMatrix[i][i]):
+                    return False
+            if sum > abs(self.squareMatrix[i][i]):
+                return False
+        return True
+
     def jSolve(self, vector, iterations):
         if self.isDRDominant() is False:
             raise Exception(

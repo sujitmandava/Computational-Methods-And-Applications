@@ -113,10 +113,16 @@ class UndirectedGraph:
         bfsNodes = []
         bfsNodes.append(startNode)
         connectedNodes = {}
+        edges = set([])
 
         # Graph returns 1 component irrespective of start if connected
         while len(bfsNodes) > 0:
             currNode = bfsNodes.pop(0)
+            for adjNode in self.graph[currNode]:
+                if currNode < adjNode:
+                    edges.add((currNode, adjNode))
+                else:
+                    edges.add((adjNode, currNode))
             if currNode not in connectedNodes:  # If node not visited, add all neighbors to queue
                 connectedNodes[currNode] = True
                 for adjNode in self.graph[currNode]:
